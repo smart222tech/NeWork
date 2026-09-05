@@ -1,0 +1,2 @@
+-keep class ru.netology.nmedia.api.dto.** { *; }
+-keep class ru.netology.nmedia.db.** { *; }

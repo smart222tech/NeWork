@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/feedFragment">
+
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="ru.netology.nmedia.ui.feed.FeedFragment"
+        android:label="Лента" />
+
+    <fragment
+        android:id="@+id/eventsFragment"
+        android:name="ru.netology.nmedia.ui.events.EventsFragment"
+        android:label="События" />
+
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="ru.netology.nmedia.ui.users.UsersFragment"
+        android:label="Пользователи" />
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="ru.netology.nmedia.ui.auth.LoginFragment"
+        android:label="Вход" />
+
+</navigation>
