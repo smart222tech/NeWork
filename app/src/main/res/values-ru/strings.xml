@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">NeWork</string>
+    <string name="posts">Посты</string>
+    <string name="events">События</string>
+    <string name="users">Пользователи</string>
+    <string name="login">Вход</string>
+    <string name="password">Пароль</string>
+    <string name="registration">Регистрация</string>
+    <string name="profile">Профиль</string>
+    <string name="jobs">Работа</string>
+    <string name="wall">Стена</string>
+    <string name="new_post">Новый пост</string>
+    <string name="new_event">Новое событие</string>
+    <string name="new_job">Новая работа</string>
+    <string name="error_network">Ошибка сети</string>
+    <string name="error_auth">Неправильный логин или пароль</string>
+    <string name="error_register">Пользователь с таким логином уже зарегистрирован</string>
+    <string name="save">Сохранить</string>
+    <string name="delete">Удалить</string>
+    <string name="participate">Участвовать</string>
+    <string name="looking_for_job">В поиске работы</string>
+    <string name="logout">Выйти</string>
+</resources>

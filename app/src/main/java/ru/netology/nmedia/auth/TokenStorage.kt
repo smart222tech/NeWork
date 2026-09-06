@@ -12,13 +12,20 @@ class TokenStorage @Inject constructor(
 
     private val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-    fun saveToken(token: String) {
-        prefs.edit().putString("auth_token", token).apply()
+    fun saveAuth(id: Long, token: String) {
+        prefs.edit()
+            .putLong("user_id", id)
+            .putString("auth_token", token)
+            .apply()
     }
 
     fun getToken(): String? = prefs.getString("auth_token", null)
+    fun getUserId(): Long = prefs.getLong("user_id", 0L)
 
     fun clearToken() {
-        prefs.edit().remove("auth_token").apply()
+        prefs.edit()
+            .remove("auth_token")
+            .remove("user_id")
+            .apply()
     }
 }

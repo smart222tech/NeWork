@@ -1,11 +1,36 @@
 package ru.netology.nmedia.api
 
+import okhttp3.MultipartBody
+import retrofit2.Response
 import retrofit2.http.*
 import ru.netology.nmedia.api.dto.*
 
 interface ApiService {
+    @FormUrlEncoded
+    @POST("api/users/authentication")
+    suspend fun login(
+        @Field("login") login: String,
+        @Field("password") password: String
+    ): Response<Token>
+
+    @Multipart
+    @POST("api/users/registration")
+    suspend fun register(
+        @Part("login") login: MultipartBody.Part,
+        @Part("password") password: MultipartBody.Part,
+        @Part("name") name: MultipartBody.Part,
+        @Part file: MultipartBody.Part? = null
+    ): Response<Token>
+
+    @Multipart
+    @POST("api/media")
+    suspend fun uploadMedia(@Part file: MultipartBody.Part): Response<Media>
+
     @GET("api/posts")
     suspend fun getPosts(): List<Post>
+
+    @GET("api/{authorId}/wall")
+    suspend fun getUserWall(@Path("authorId") authorId: Long): List<Post>
 
     @POST("api/posts")
     suspend fun createPost(@Body post: Post): Post

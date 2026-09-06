@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">NeWork</string>
+    <string name="posts">Posts</string>
+    <string name="events">Events</string>
+    <string name="users">Users</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="registration">Registration</string>
+    <string name="profile">Profile</string>
+    <string name="jobs">Jobs</string>
+    <string name="wall">Wall</string>
+    <string name="new_post">New Post</string>
+    <string name="new_event">New Event</string>
+    <string name="new_job">New Job</string>
+    <string name="error_network">Network error</string>
+    <string name="error_auth">Invalid login or password</string>
+    <string name="error_register">User already exists</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="participate">Participate</string>
+    <string name="looking_for_job">Looking for job</string>
+    <string name="logout">Logout</string>
 </resources>

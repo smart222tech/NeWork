@@ -7,10 +7,13 @@ data class Event(
     val authorAvatar: String?,
     val content: String,
     val datetime: String,
+    val published: String? = null,
+    val coords: Coords? = null,
     val type: String,
     val likedByMe: Boolean,
     val likes: Int,
     val participants: Int,
-    val speakerIds: List<Long>?,
+    val speakerIds: List<Long>? = emptyList(),
+    val participatedByMe: Boolean = false,
     val attachment: Attachment?
 )

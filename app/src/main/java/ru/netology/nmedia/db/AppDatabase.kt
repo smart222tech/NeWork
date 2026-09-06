@@ -5,9 +5,21 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import android.content.Context
 
-@Database(entities = [PostEntity::class], version = 1, exportSchema = false)
+@Database(
+    entities = [
+        PostEntity::class,
+        EventEntity::class,
+        UserEntity::class,
+        JobEntity::class
+    ],
+    version = 2,
+    exportSchema = false
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun postDao(): PostDao
+    abstract fun eventDao(): EventDao
+    abstract fun userDao(): UserDao
+    abstract fun jobDao(): JobDao
 
     companion object {
         @Volatile

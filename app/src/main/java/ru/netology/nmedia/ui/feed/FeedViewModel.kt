@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.api.dto.Post
 import ru.netology.nmedia.repository.PostRepository
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -58,6 +59,34 @@ class FeedViewModel @Inject constructor(
             try {
                 repository.deletePost(post.id)
                 _posts.value = _posts.value.filter { it.id != post.id }
+            } catch (_: Exception) {
+            }
+        }
+    }
+
+    fun save(content: String, file: File? = null) {
+        viewModelScope.launch {
+            try {
+                val attachment = file?.let {
+                    val media = repository.uploadMedia(it)
+                    ru.netology.nmedia.api.dto.Attachment(media.url, "image")
+                }
+                val post = Post(
+                    id = 0,
+                    authorId = 0,
+                    author = "",
+                    authorAvatar = null,
+                    content = content,
+                    published = "",
+                    likedByMe = false,
+                    likes = 0,
+                    attachment = attachment,
+                    coords = null,
+                    link = null,
+                    mentionIds = emptyList()
+                )
+                repository.createPost(post)
+                load() // Reload to get the new post with real IDs
             } catch (_: Exception) {
             }
         }

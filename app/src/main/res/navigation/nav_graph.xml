@@ -7,21 +7,106 @@
     <fragment
         android:id="@+id/feedFragment"
         android:name="ru.netology.nmedia.ui.feed.FeedFragment"
-        android:label="Лента" />
+        android:label="Лента">
+        <action
+            android:id="@+id/action_feedFragment_to_newPostFragment"
+            app:destination="@id/newPostFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/postDetailFragment"
+        android:name="ru.netology.nmedia.ui.feed.PostDetailFragment"
+        android:label="Пост">
+        <argument
+            android:name="postId"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newPostFragment"
+        android:name="ru.netology.nmedia.ui.feed.NewPostFragment"
+        android:label="Новый пост">
+        <action
+            android:id="@+id/action_newPostFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <argument
+            android:name="postId"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="ru.netology.nmedia.ui.MapFragment"
+        android:label="Карта" />
 
     <fragment
         android:id="@+id/eventsFragment"
         android:name="ru.netology.nmedia.ui.events.EventsFragment"
-        android:label="События" />
+        android:label="События">
+        <action
+            android:id="@+id/action_eventsFragment_to_newEventFragment"
+            app:destination="@id/newEventFragment" />
+        <action
+            android:id="@+id/action_eventsFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="ru.netology.nmedia.ui.events.EventDetailFragment"
+        android:label="Событие">
+        <argument
+            android:name="eventId"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newEventFragment"
+        android:name="ru.netology.nmedia.ui.events.NewEventFragment"
+        android:label="Новое событие" />
 
     <fragment
         android:id="@+id/usersFragment"
         android:name="ru.netology.nmedia.ui.users.UsersFragment"
-        android:label="Пользователи" />
+        android:label="Пользователи">
+        <action
+            android:id="@+id/action_usersFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="ru.netology.nmedia.ui.users.ProfileFragment"
+        android:label="Профиль">
+        <argument
+            android:name="userId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_profileFragment_to_newJobFragment"
+            app:destination="@id/newJobFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newJobFragment"
+        android:name="ru.netology.nmedia.ui.users.NewJobFragment"
+        android:label="Новая работа" />
 
     <fragment
         android:id="@+id/loginFragment"
         android:name="ru.netology.nmedia.ui.auth.LoginFragment"
-        android:label="Вход" />
+        android:label="Вход">
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="ru.netology.nmedia.ui.auth.RegistrationFragment"
+        android:label="Регистрация" />
 
 </navigation>

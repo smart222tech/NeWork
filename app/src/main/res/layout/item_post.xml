@@ -49,6 +49,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <ImageView
+            android:id="@+id/attachment"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/content" />
+
         <TextView
             android:id="@+id/likeButton"
             android:layout_width="wrap_content"
@@ -58,7 +67,7 @@
             android:padding="8dp"
             android:text="♥ 0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/content" />
+            app:layout_constraintTop_toBottomOf="@id/attachment" />
 
         <ImageView
             android:id="@+id/deleteButton"
@@ -68,7 +77,7 @@
             android:padding="8dp"
             android:src="@drawable/ic_delete"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/content" />
+            app:layout_constraintTop_toTopOf="@id/likeButton" />
 
         <ImageView
             android:id="@+id/editButton"
@@ -78,7 +87,7 @@
             android:padding="8dp"
             android:src="@drawable/ic_edit"
             app:layout_constraintEnd_toStartOf="@id/deleteButton"
-            app:layout_constraintTop_toBottomOf="@id/content" />
+            app:layout_constraintTop_toTopOf="@id/likeButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

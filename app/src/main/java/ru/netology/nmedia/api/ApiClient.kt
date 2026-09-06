@@ -21,8 +21,10 @@ object ApiClient {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
-                    .addHeader("Api-Key", "ВАШ_КЛЮЧ_ИЗ_ЛИЧНОГО_КАБИНЕТА")
                     .apply {
+                        if (Config.API_KEY.isNotBlank() && !Config.API_KEY.contains("ВАШ_КЛЮЧ")) {
+                            addHeader("Api-Key", Config.API_KEY)
+                        }
                         storage.getToken()?.let { token ->
                             addHeader("Authorization", token)
                         }
@@ -60,19 +62,55 @@ object ApiClient {
 
     @Provides
     @Singleton
-    fun providePostRepository(apiService: ApiService, dao: ru.netology.nmedia.db.PostDao): ru.netology.nmedia.repository.PostRepository {
+    fun provideEventDao(@ApplicationContext context: android.content.Context): ru.netology.nmedia.db.EventDao {
+        return ru.netology.nmedia.db.AppDatabase.getInstance(context).eventDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserDao(@ApplicationContext context: android.content.Context): ru.netology.nmedia.db.UserDao {
+        return ru.netology.nmedia.db.AppDatabase.getInstance(context).userDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideJobDao(@ApplicationContext context: android.content.Context): ru.netology.nmedia.db.JobDao {
+        return ru.netology.nmedia.db.AppDatabase.getInstance(context).jobDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(
+        apiService: ApiService,
+        dao: ru.netology.nmedia.db.UserDao
+    ): ru.netology.nmedia.repository.UserRepository {
+        return ru.netology.nmedia.repository.UserRepositoryImpl(apiService, dao)
+    }
+
+    @Provides
+    @Singleton
+    fun providePostRepository(
+        apiService: ApiService,
+        dao: ru.netology.nmedia.db.PostDao
+    ): ru.netology.nmedia.repository.PostRepository {
         return ru.netology.nmedia.repository.PostRepositoryImpl(apiService, dao)
     }
 
     @Provides
     @Singleton
-    fun provideEventRepository(apiService: ApiService): ru.netology.nmedia.repository.EventRepository {
-        return ru.netology.nmedia.repository.EventRepositoryImpl(apiService)
+    fun provideEventRepository(
+        apiService: ApiService,
+        dao: ru.netology.nmedia.db.EventDao
+    ): ru.netology.nmedia.repository.EventRepository {
+        return ru.netology.nmedia.repository.EventRepositoryImpl(apiService, dao)
     }
 
     @Provides
     @Singleton
-    fun provideJobRepository(apiService: ApiService): ru.netology.nmedia.repository.JobRepository {
-        return ru.netology.nmedia.repository.JobRepositoryImpl(apiService)
+    fun provideJobRepository(
+        apiService: ApiService,
+        dao: ru.netology.nmedia.db.JobDao
+    ): ru.netology.nmedia.repository.JobRepository {
+        return ru.netology.nmedia.repository.JobRepositoryImpl(apiService, dao)
     }
 }

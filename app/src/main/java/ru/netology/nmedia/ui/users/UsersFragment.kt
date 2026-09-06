@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import ru.netology.nmedia.R
-
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import ru.netology.nmedia.R
+import ru.netology.nmedia.databinding.FragmentFeedBinding
 
 @AndroidEntryPoint
 class UsersFragment : Fragment() {
@@ -22,19 +22,21 @@ class UsersFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_feed, container, false)
-    }
+    ): View {
+        val binding = FragmentFeedBinding.inflate(inflater, container, false)
+        binding.fabAdd.visibility = View.GONE
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = UsersAdapter()
-        recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val adapter = UsersAdapter { user ->
+            val bundle = Bundle().apply { putLong("userId", user.id) }
+            findNavController().navigate(R.id.action_usersFragment_to_profileFragment, bundle)
+        }
+        binding.recyclerView.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.data.collectLatest { adapter.submitList(it) }
         }
+
+        return binding.root
     }
 }

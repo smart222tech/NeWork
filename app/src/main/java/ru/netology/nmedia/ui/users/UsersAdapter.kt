@@ -12,18 +12,20 @@ import com.bumptech.glide.Glide
 import ru.netology.nmedia.R
 import ru.netology.nmedia.api.dto.User
 
-class UsersAdapter : ListAdapter<User, UsersAdapter.UserViewHolder>(UserDiffCallback()) {
+class UsersAdapter(
+    private val onUserClick: (User) -> Unit
+) : ListAdapter<User, UsersAdapter.UserViewHolder>(UserDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false)
-        return UserViewHolder(view)
+        return UserViewHolder(view, onUserClick)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class UserViewHolder(view: View, private val onUserClick: (User) -> Unit) : RecyclerView.ViewHolder(view) {
         private val avatar = view.findViewById<ImageView>(R.id.avatar)
         private val name = view.findViewById<TextView>(R.id.name)
         private val login = view.findViewById<TextView>(R.id.login)
@@ -32,6 +34,8 @@ class UsersAdapter : ListAdapter<User, UsersAdapter.UserViewHolder>(UserDiffCall
             name.text = user.name
             login.text = "@${user.login}"
             Glide.with(itemView).load(user.avatar).circleCrop().into(avatar)
+            
+            itemView.setOnClickListener { onUserClick(user) }
         }
     }
 
