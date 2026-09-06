@@ -1,40 +1,38 @@
 # NeWork
 
-NeWork is a professional social network application for Android.
+NeWork — профессиональная социальная сеть для Android.
 
-## Features
+## Скриншоты
 
-- **Authentication & Registration**: Real backend-based login and registration with avatar support.
-- **Posts**: View, create, and interact with posts (Likes, Details).
-- **Events**: Manage professional events with participation tracking and online/offline status.
-- **Users & Profiles**: Explore user list and view detailed profiles with job history.
-- **Job Management**: Maintain your own work history within your profile.
-- **Rich Media**: Support for images and other attachments.
-- **Maps**: Integrated map support for locations (Google Maps).
-- **Offline Support**: Local caching using Room database.
-- **Localization**: Fully supports English and Russian languages.
+| Посты | Вход | Регистрация | События |
+|-------|------|-------------|---------|
+| ![Posts](screenshots/screen1_posts.jpg) | ![Login](screenshots/screen2_login.jpg) | ![Registration](screenshots/screen3_registration.jpg) | ![Events](screenshots/screen4_events.jpg) |
 
-## Technologies Used
+## Функционал
 
-- **Kotlin** & **Coroutines** / **Flow**
-- **Dagger Hilt** (Dependency Injection)
-- **Jetpack Navigation** (Single Activity)
-- **Retrofit** (Networking)
-- **Room** (Database)
-- **Glide** (Image Loading)
-- **Material Components** (UI)
+- Аутентификация и регистрация с поддержкой аватара
+- Посты: просмотр, создание, лайки
+- События: онлайн/офлайн, участники, спикеры
+- Пользователи и профили с историей работ
+- Google Maps для геолокации
+- Офлайн режим (Room DB)
+- Локализация: EN / RU
 
-## Configuration
+## Технологии
 
-To build the project, add the following to your `local.properties`:
+- Kotlin + Coroutines + Flow
+- Dagger Hilt
+- Jetpack Navigation (Single Activity)
+- Retrofit + OkHttp
+- Room Database
+- Glide
+- Material Components
+- GitHub Actions CI/CD
 
-```properties
-API_KEY=your_api_key_here
-MAPS_API_KEY=your_google_maps_key_here
-```
+## Сервер
 
-The API key is required for authentication and maps functionality.
+http://94.228.125.136:8080/
 
-## CI/CD
+## Сборка
 
-The project uses GitHub Actions for continuous integration, ensuring build stability and running unit tests on every push.
+Добавь в `local.properties`:
