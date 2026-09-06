@@ -6,7 +6,7 @@ NeWork — профессиональная социальная сеть для
 
 | Посты | Вход | Регистрация | События |
 |-------|------|-------------|---------|
-| ![Posts](screenshots/screen1_posts.jpg) | ![Login](screenshots/screen2_login.jpg) | ![Registration](screenshots/screen3_registration.jpg) | ![Events](screenshots/screen4_events.jpg) |
+
 
 ## Функционал
 
@@ -32,7 +32,3 @@ NeWork — профессиональная социальная сеть для
 ## Сервер
 
 http://94.228.125.136:8080/
-
-## Сборка
-
-Добавь в `local.properties`:
