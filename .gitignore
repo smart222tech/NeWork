@@ -8,3 +8,6 @@
 /captures
 .externalNativeBuild
 .cxx
+.kotlin/
+.android_prefs/
+.android_build/
