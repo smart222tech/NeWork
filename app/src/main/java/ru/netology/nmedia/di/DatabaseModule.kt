@@ -19,7 +19,7 @@ import javax.inject.Singleton
 object DatabaseModule {
 
     @Provides
-          @Singleton
+    @Singleton
     fun provideAppDatabase(
         @ApplicationContext context: Context
     ): AppDatabase {
