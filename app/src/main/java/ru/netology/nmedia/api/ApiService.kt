@@ -1,6 +1,7 @@
 package ru.netology.nmedia.api
 
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 import ru.netology.nmedia.api.dto.*
@@ -10,15 +11,15 @@ interface ApiService {
     @POST("api/users/authentication")
     suspend fun login(
         @Field("login") login: String,
-        @Field("password") password: String
+        @Field("pass") pass: String
     ): Response<Token>
 
     @Multipart
     @POST("api/users/registration")
     suspend fun register(
-        @Part("login") login: MultipartBody.Part,
-        @Part("password") password: MultipartBody.Part,
-        @Part("name") name: MultipartBody.Part,
+        @Part("login") login: RequestBody,
+        @Part("pass") pass: RequestBody,
+        @Part("name") name: RequestBody,
         @Part file: MultipartBody.Part? = null
     ): Response<Token>
 
