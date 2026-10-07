@@ -19,7 +19,7 @@ import javax.inject.Singleton
 object DatabaseModule {
 
     @Provides
-    @Singleton
+          @Singleton
     fun provideAppDatabase(
         @ApplicationContext context: Context
     ): AppDatabase {
@@ -33,22 +33,14 @@ object DatabaseModule {
     }
 
     @Provides
-    fun providePostDao(
-        database: AppDatabase
-    ): PostDao = database.postDao()
+    fun providePostDao(database: AppDatabase): PostDao = database.postDao()
 
     @Provides
-    fun provideEventDao(
-        database: AppDatabase
-    ): EventDao = database.eventDao()
+    fun provideEventDao(database: AppDatabase): EventDao = database.eventDao()
 
     @Provides
-    fun provideUserDao(
-        database: AppDatabase
-    ): UserDao = database.userDao()
+    fun provideUserDao(database: AppDatabase): UserDao = database.userDao()
 
     @Provides
-    fun provideJobDao(
-        database: AppDatabase
-    ): JobDao = database.jobDao()
+    fun provideJobDao(database: AppDatabase): JobDao = database.jobDao()
 }
