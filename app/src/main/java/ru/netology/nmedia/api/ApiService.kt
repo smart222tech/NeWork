@@ -11,14 +11,14 @@ interface ApiService {
     @POST("api/users/authentication")
     suspend fun login(
         @Field("login") login: String,
-        @Field("pass") pass: String
+        @Field("password") password: String
     ): Response<Token>
 
     @Multipart
     @POST("api/users/registration")
     suspend fun register(
         @Part("login") login: RequestBody,
-        @Part("pass") pass: RequestBody,
+        @Part("password") password: RequestBody,
         @Part("name") name: RequestBody,
         @Part file: MultipartBody.Part? = null
     ): Response<Token>

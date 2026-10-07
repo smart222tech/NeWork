@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import ru.netology.nmedia.api.ApiService
@@ -36,10 +36,10 @@ class AuthViewModel @Inject constructor(
                         _authState.value = AuthState.Authenticated(token.id, token.token)
                     }
                 } else {
-                    _authState.value = AuthState.Error("Falscher Login oder Passwort")
+                    _authState.value = AuthState.Error("Неправильный логин или пароль")
                 }
             } catch (e: Exception) {
-                _authState.value = AuthState.Error("Netzwerkfehler")
+                _authState.value = AuthState.Error("Ошибка сети")
             }
         }
     }
@@ -47,11 +47,11 @@ class AuthViewModel @Inject constructor(
     fun register(login: String, pass: String, name: String, avatar: MultipartBody.Part? = null) {
         viewModelScope.launch {
             try {
-                val mediaType = "text/plain".toMediaTypeOrNull()
+                val textPlainMediaType = "text/plain".toMediaType()
                 val response = apiService.register(
-                    login.toRequestBody(mediaType),
-                    pass.toRequestBody(mediaType),
-                    name.toRequestBody(mediaType),
+                    login.toRequestBody(textPlainMediaType),
+                    pass.toRequestBody(textPlainMediaType),
+                    name.toRequestBody(textPlainMediaType),
                     avatar
                 )
                 if (response.isSuccessful) {
@@ -61,12 +61,12 @@ class AuthViewModel @Inject constructor(
                         _authState.value = AuthState.Authenticated(token.id, token.token)
                     }
                 } else if (response.code() == 400) {
-                    _authState.value = AuthState.Error("Benutzer mit diesem Login existiert bereits")
+                    _authState.value = AuthState.Error("Пользователь с таким логином уже зарегистрирован")
                 } else {
-                    _authState.value = AuthState.Error("Registrierungsfehler")
+                    _authState.value = AuthState.Error("Ошибка регистрации")
                 }
             } catch (e: Exception) {
-                _authState.value = AuthState.Error("Netzwerkfehler")
+                _authState.value = AuthState.Error("Ошибка сети")
             }
         }
     }

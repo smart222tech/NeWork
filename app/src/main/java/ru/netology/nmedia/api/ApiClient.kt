@@ -16,26 +16,20 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApiClient {
 
-    private const val BASE_URL = "http://94.228.125.136:8080/"
-
     @Provides
     @Singleton
     fun provideOkHttpClient(storage: TokenStorage): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
-                val original = chain.request()
-                val builder = original.newBuilder()
-
-                if (BuildConfig.API_KEY.isNotBlank() && !BuildConfig.API_KEY.contains("ВАШ_КЛЮЧ")) {
-                    builder.addHeader("Api-Key", BuildConfig.API_KEY)
+                val requestBuilder = chain.request().newBuilder()
+                if (BuildConfig.API_KEY.isNotBlank()) {
+                    requestBuilder.addHeader("Api-Key", BuildConfig.API_KEY)
                 }
-
                 val token = storage.getToken()
-                if (!token.isNullOrEmpty()) {
-                    builder.addHeader("Authorization", token)
+                if (token != null) {
+                    requestBuilder.addHeader("Authorization", token)
                 }
-
-                chain.proceed(builder.build())
+                chain.proceed(requestBuilder.build())
             }
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -47,7 +41,7 @@ object ApiClient {
     @Singleton
     fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl("http://94.228.125.136:8080/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
