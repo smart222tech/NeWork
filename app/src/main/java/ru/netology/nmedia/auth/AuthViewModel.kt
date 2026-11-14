@@ -1,5 +1,6 @@
 package ru.netology.nmedia.auth
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,44 +30,98 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val response = apiService.login(login, pass)
+
                 if (response.isSuccessful) {
                     val token = response.body()
+
                     if (token != null) {
                         tokenStorage.saveAuth(token.id, token.token)
-                        _authState.value = AuthState.Authenticated(token.id, token.token)
+                        _authState.value = AuthState.Authenticated(
+                            token.id,
+                            token.token
+                        )
+                    } else {
+                        Log.e("AuthDebug", "Login returned an empty response body")
+                        _authState.value = AuthState.Error(
+                            "Сервер вернул пустой ответ при входе"
+                        )
                     }
                 } else {
-                    _authState.value = AuthState.Error("Неправильный логин или пароль")
+                    Log.e(
+                        "AuthDebug",
+                        "Login HTTP error: code=${response.code()}"
+                    )
+
+                    _authState.value = AuthState.Error(
+                        if (response.code() == 400) {
+                            "Неправильный логин или пароль"
+                        } else {
+                            "Ошибка входа: HTTP ${response.code()}"
+                        }
+                    )
                 }
             } catch (e: Exception) {
-                _authState.value = AuthState.Error("Ошибка сети")
+                Log.e("AuthDebug", "Login request failed", e)
+                _authState.value = AuthState.Error(
+                    "Ошибка входа: ${e.javaClass.simpleName}"
+                )
             }
         }
     }
 
-    fun register(login: String, pass: String, name: String, avatar: MultipartBody.Part? = null) {
+    fun register(
+        login: String,
+        pass: String,
+        name: String,
+        avatar: MultipartBody.Part? = null
+    ) {
         viewModelScope.launch {
             try {
                 val textPlainMediaType = "text/plain".toMediaType()
+
                 val response = apiService.register(
                     login.toRequestBody(textPlainMediaType),
                     pass.toRequestBody(textPlainMediaType),
                     name.toRequestBody(textPlainMediaType),
                     avatar
                 )
+
                 if (response.isSuccessful) {
                     val token = response.body()
+
                     if (token != null) {
                         tokenStorage.saveAuth(token.id, token.token)
-                        _authState.value = AuthState.Authenticated(token.id, token.token)
+                        _authState.value = AuthState.Authenticated(
+                            token.id,
+                            token.token
+                        )
+                    } else {
+                        Log.e(
+                            "AuthDebug",
+                            "Registration returned an empty response body"
+                        )
+                        _authState.value = AuthState.Error(
+                            "Сервер вернул пустой ответ при регистрации"
+                        )
                     }
-                } else if (response.code() == 400) {
-                    _authState.value = AuthState.Error("Пользователь с таким логином уже зарегистрирован")
                 } else {
-                    _authState.value = AuthState.Error("Ошибка регистрации")
+                    Log.e(
+                        "AuthDebug",
+                        "Registration HTTP error: code=${response.code()}"
+                    )
+
+                    _authState.value = AuthState.Error(
+                        when (response.code()) {
+                            400 -> "Пользователь с таким логином уже зарегистрирован"
+                            else -> "Ошибка регистрации: HTTP ${response.code()}"
+                        }
+                    )
                 }
             } catch (e: Exception) {
-                _authState.value = AuthState.Error("Ошибка сети")
+                Log.e("AuthDebug", "Registration request failed", e)
+                _authState.value = AuthState.Error(
+                    "Ошибка регистрации: ${e.javaClass.simpleName}"
+                )
             }
         }
     }
@@ -79,6 +134,7 @@ class AuthViewModel @Inject constructor(
     fun checkAuth() {
         val token = tokenStorage.getToken()
         val id = tokenStorage.getUserId()
+
         if (token != null) {
             _authState.value = AuthState.Authenticated(id, token)
         } else {

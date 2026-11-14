@@ -13,11 +13,22 @@ android {
 
     val properties = Properties()
     val propertiesFile = rootProject.file("local.properties")
+
     if (propertiesFile.exists()) {
-        properties.load(propertiesFile.inputStream())
+        propertiesFile.inputStream().reader(Charsets.UTF_8).use {
+            properties.load(it)
+        }
     }
-    val apiKey = properties.getProperty("API_KEY") ?: ""
+
+    val apiKey = properties.getProperty("API_KEY")?.trim() ?: ""
     val mapsApiKey = properties.getProperty("MAPS_API_KEY") ?: ""
+
+    // Escape characters so the value is safely embedded in BuildConfig.
+    val escapedApiKey = apiKey
+        .replace("\\", "\\\\")
+        .replace("\"", "\\\"")
+        .replace("\n", "\\n")
+        .replace("\r", "\\r")
 
     defaultConfig {
         applicationId = "ru.netology.nmedia"
@@ -27,14 +38,17 @@ android {
         versionName = "1.0"
         multiDexEnabled = true
 
-        buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        buildConfigField("String", "API_KEY", "\"$escapedApiKey\"")
         manifestPlaceholders["googleMapsApiKey"] = mapsApiKey
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -52,6 +66,10 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {

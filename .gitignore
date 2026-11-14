@@ -11,3 +11,5 @@
 .kotlin/
 .android_prefs/
 .android_build/
+
+local.properties

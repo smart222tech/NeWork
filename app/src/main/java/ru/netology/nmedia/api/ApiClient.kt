@@ -22,18 +22,25 @@ object ApiClient {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val requestBuilder = chain.request().newBuilder()
-                if (BuildConfig.API_KEY.isNotBlank()) {
-                    requestBuilder.addHeader("Api-Key", BuildConfig.API_KEY)
+
+                val apiKey = BuildConfig.API_KEY.trim()
+                if (apiKey.isNotEmpty()) {
+                    requestBuilder.header("Api-Key", apiKey)
                 }
+
                 val token = storage.getToken()
-                if (token != null) {
-                    requestBuilder.addHeader("Authorization", token)
+                if (!token.isNullOrBlank()) {
+                    requestBuilder.header("Authorization", token)
                 }
+
                 chain.proceed(requestBuilder.build())
             }
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
+            .addInterceptor(
+                HttpLoggingInterceptor().apply {
+                    // Do not log request bodies, passwords or authorization data.
+                    level = HttpLoggingInterceptor.Level.BASIC
+                }
+            )
             .build()
     }
 
