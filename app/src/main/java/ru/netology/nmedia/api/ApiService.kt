@@ -7,18 +7,17 @@ import retrofit2.http.*
 import ru.netology.nmedia.api.dto.*
 
 interface ApiService {
-    @FormUrlEncoded
     @POST("api/users/authentication")
     suspend fun login(
-        @Field("login") login: String,
-        @Field("password") password: String
+        @Query("login") login: String,
+        @Query("pass") password: String
     ): Response<Token>
 
     @Multipart
     @POST("api/users/registration")
     suspend fun register(
         @Part("login") login: RequestBody,
-        @Part("password") password: RequestBody,
+        @Part("pass") password: RequestBody,
         @Part("name") name: RequestBody,
         @Part file: MultipartBody.Part? = null
     ): Response<Token>

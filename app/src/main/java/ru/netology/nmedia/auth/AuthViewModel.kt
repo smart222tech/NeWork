@@ -53,10 +53,10 @@ class AuthViewModel @Inject constructor(
                     )
 
                     _authState.value = AuthState.Error(
-                        if (response.code() == 400) {
-                            "Неправильный логин или пароль"
-                        } else {
-                            "Ошибка входа: HTTP ${response.code()}"
+                        when (response.code()) {
+                            400 -> "Неправильный пароль"
+                            404 -> "Пользователь не зарегистрирован"
+                            else -> "Ошибка входа: HTTP ${response.code()}"
                         }
                     )
                 }
@@ -112,7 +112,8 @@ class AuthViewModel @Inject constructor(
 
                     _authState.value = AuthState.Error(
                         when (response.code()) {
-                            400 -> "Пользователь с таким логином уже зарегистрирован"
+                            403 -> "Пользователь с таким логином уже зарегистрирован"
+                            415 -> "Неправильный формат фотографии"
                             else -> "Ошибка регистрации: HTTP ${response.code()}"
                         }
                     )
